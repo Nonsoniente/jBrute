@@ -45,7 +45,7 @@ You should use this command:
 
 so that the words will be separated using "_"
 
-WARNING: if your dict looks like this (separated using "\n")
+WARNING: if your dictis separated using "\n"
 
 <code> hello </code>
   
@@ -76,17 +76,44 @@ Example:
 
 More things that you can specify are:
 
+-------------
+
 Starting password (at which password he should start generating): 
 
 <code> b = Brute(settings_path, brute_format, start = "hello11") </code>
+
+-------------
 
 Stopping password (at which password he should stop generating) : 
 
 <code>  b = Brute(settings_path, brute_format, stop = "hello33") </code>
 
+-------------
+
 Dump options (path to the file to store the passwords in, and if it should be cleared first or not):
 
 <code> b = Brute(settings_path,brute_format, dump = {"path" : "./dump.txt", "clear" : True}) </code>
+
+-------------
+
+Teamwork options (a list containing how many bruteforces will split the passwords, and which of these is the one that you're creating)
+For example, here's how to specify that we'll have 10 bruteforcers and this is the third of them
+
+<code> b = Brute(settings_path, brute_format, teamwork = [3,10]) </code>
+
+-------------
+
+Extra "modes":
+
+Here's how to specify extra modes:
+
+<code> b = Brute(settings_path,brute_format,extra=[extra,modes,here]
+ 
+ And here's the list of avaliable extra modes:
+
+   "noDouble" - there will be no same letters on close positions (for example "aa" won't be present in this password list)
+
+-------------
 
 Now the Brute object will generate a new password each time the <code>Brute.GetPassword()</code> method is called
 
