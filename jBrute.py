@@ -41,6 +41,9 @@ class Brute:
 
         if "extra" in kwargs.keys():
 
+            for mode in kwargs["extra"]:
+                if type(mode) != str: raise Exception("Extra modes must be strings, got a {}".format(type(mode)))
+
             self.extra_modes = kwargs["extra"]
 
         else: self.extra_modes = []
@@ -61,9 +64,23 @@ class Brute:
         
         self.CalculatePasswordNumber()
 
+        #POST-CONFIGURING
+
+        if "teamwork" in kwargs.keys():
+
+            teamwork_list = kwargs["teamwork"]
+
+            if len(teamwork_list) != 2: raise Exception("Teamwork list must contain 2 values, got {}".format(len(teamwork_list)))
+
+            for val in teamwork_list:
+                if type(val) != int: raise Exception("Teamwork list values must be integers, got a {}".format(type(val)))
+
+            self.ApplyTeamwork(teamwork_list)
+
         #FIXING
 
         self.stop_indexes[-1] += 1
+
 
     #CONFIG METHODS
 
@@ -137,6 +154,19 @@ class Brute:
         else:
 
             self.stop_indexes = self.Password_to_indexes(stop_arg)
+
+    def ApplyTeamwork(self,teamwork_list):
+
+        me  = teamwork_list[0] 
+        tot = teamwork_list[1]
+
+        for i in range(len(self.stop_indexes)):
+
+            self.password_indexes[i] = int(self.stop_indexes[i] / tot * me)
+            self.stop_indexes[i]  = int(self.stop_indexes[i] / tot * (me + 1))
+
+        #print(self.password_indexes)
+        #print(self.stop_indexes)
 
     def Password_to_indexes(self,password):
 
@@ -229,7 +259,12 @@ class Brute:
 
             self.password_indexes[i] += 1
 
-            if self.password_indexes[i] == len(self.ListForIndex(i)): self.password_indexes[i] = 0; i -= 1
+            if self.password_indexes[i] == len(self.ListForIndex(i)):
+                if i == len(self.password_indexes) - 1 and self.password_indexes == self.stop_indexes:
+                    self.has_finished = True
+                else:
+                    self.password_indexes[i] = 0
+                    i -= 1
             else: done = True
 
         self.ApplyExtraModes()
