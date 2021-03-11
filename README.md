@@ -45,7 +45,9 @@ You should use this command:
 
 so that the words will be separated using "_"
 
-WARNING: if your dictis separated using "\n"
+-------------
+
+NOTE: if your dictis separated using "\n"
 
 <code> hello </code>
   
@@ -61,7 +63,9 @@ You should use this command without specifying the separator:
 
 <code> test_dict << ./path/to/dict.txt </code>
 
-Dicts have to be assinged to a ref as lists:
+-------------
+
+Dicts have to be assinged to a ref just like with lists:
 
 <code> !w = test_dict </code>
 
@@ -107,7 +111,7 @@ Extra "modes":
 
 Here's how to specify extra modes:
 
-<code> b = Brute(settings_path,brute_format,extra=[extra,modes,here]
+<code> b = Brute(settings_path,brute_format,extra=[extra,modes,here] </code>
  
  And here's the list of avaliable extra modes:
 
