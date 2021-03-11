@@ -38,6 +38,12 @@ class Brute:
             self.dump_file = open(self.dump_path,"a+")
 
         else: self.dump_file = None
+
+        if "extra" in kwargs.keys():
+
+            self.extra_modes = kwargs["extra"]
+
+        else: self.extra_modes = []
             
         #CONFIGURING
 
@@ -202,6 +208,18 @@ class Brute:
 
         return self.format_string.format(*chars)
 
+    def ApplyExtraModes(self):
+
+        if "noDouble" in self.extra_modes:
+
+            if len(self.password_indexes) != 1:
+
+                for i in range(len(self.password_indexes)-1,-1,-1):
+    
+                    if self.password_indexes[i] == self.password_indexes[i-1]:
+    
+                        self.password_indexes[i] += 1
+
     def UpdateIndexes(self):
 
         done = False
@@ -213,6 +231,8 @@ class Brute:
 
             if self.password_indexes[i] == len(self.ListForIndex(i)): self.password_indexes[i] = 0; i -= 1
             else: done = True
+
+        self.ApplyExtraModes()
 
     def GetPassword(self):
 
